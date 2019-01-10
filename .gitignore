@@ -136,6 +136,8 @@ html/
 # Testing videos
 *.mp4
 *.mov
-
+*.avi
 ######################### Validation Scripts & Testing #########################
 output*/
+*result*
+*videoframe*
