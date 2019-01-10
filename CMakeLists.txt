@@ -267,7 +267,7 @@ option(DOWNLOAD_HAND_MODEL "Download hand model." ON)
 # More options
 option(BUILD_EXAMPLES "Build OpenPose examples." ON)
 option(BUILD_DOCS "Build OpenPose documentation." OFF)
-option(BUILD_PYTHON "Build OpenPose python." OFF)
+option(BUILD_PYTHON "Build OpenPose python." ON)
 if (WIN32)
   option(BUILD_BIN_FOLDER "Copy all required 3rd-party DLL files into {build_directory}/bin. Disable to save some memory." ON)
 endif (WIN32)
@@ -443,13 +443,13 @@ if (UNIX OR APPLE)
 
     if (NOT CUDA_FOUND)
       message(STATUS "CUDA not found.")
-      execute_process(COMMAND cat install_cuda.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts/ubuntu)
+      execute_process(COMMAND cat install_cuda.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/ubuntu)
       message(FATAL_ERROR "Install CUDA using the above commands.")
     endif (NOT CUDA_FOUND)
 
     if (USE_CUDNN AND NOT CUDNN_FOUND)
       message(STATUS "cuDNN not found.")
-      execute_process(COMMAND cat install_cudnn.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts/ubuntu)
+      execute_process(COMMAND cat install_cudnn.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/ubuntu)
       message(FATAL_ERROR "Install cuDNN using the above commands. or turn off cuDNN by setting USE_CUDNN to OFF.")
     endif (USE_CUDNN AND NOT CUDNN_FOUND)
   endif (${GPU_MODE} MATCHES "CUDA")
@@ -647,7 +647,7 @@ if (UNIX OR APPLE)
       # Build Process
       set(CAFFE_CPU_ONLY OFF)
       if (${GPU_MODE} MATCHES "CUDA")
-        execute_process(COMMAND git checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+        execute_process(COMMAND git checkout f019d0dfe86f49d1140961f8c7dec22130c83154 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
       elseif (${GPU_MODE} MATCHES "CPU_ONLY")
         if (USE_MKL)
           #execute_process(COMMAND git checkout intel WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
@@ -682,7 +682,7 @@ if (UNIX OR APPLE)
             "${CMAKE_BINARY_DIR}/caffe/lib/libmkldnn.so"
             )
         else (USE_MKL)
-          execute_process(COMMAND git checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+          execute_process(COMMAND git checkout f019d0dfe86f49d1140961f8c7dec22130c83154 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
         endif (USE_MKL)
         set(CAFFE_CPU_ONLY ON)
         set(USE_CUDNN OFF)
@@ -705,16 +705,14 @@ if (UNIX OR APPLE)
           PREFIX ${CAFFE_PREFIX}
           CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
           -DMKLDNN_INSTALL_DIR:PATH=<INSTALL_DIR>
-          -DUSE_MKL2017_AS_DEFAULT_ENGINE=${CAFFE_CPU_ONLY}
           -DUSE_CUDNN=${USE_CUDNN}
           -DCUDA_ARCH_NAME=${CUDA_ARCH}
-          -DCUDA_ARCH_BIN=${CUDA_ARCH_BIN}
-          -DCUDA_ARCH_PTX=${CUDA_ARCH_PTX}
           -DCPU_ONLY=${CAFFE_CPU_ONLY}
+          -DUSE_MKL2017_AS_DEFAULT_ENGINE=${CAFFE_CPU_ONLY}
           -DCMAKE_BUILD_TYPE=Release
           -DBUILD_docs=OFF
-          -DBUILD_python=OFF
-          -DBUILD_python_layer=OFF
+	  -DBUILD_python=ON
+	  -DBUILD_python_layer=ON
           -DUSE_LEVELDB=OFF
           -DUSE_LMDB=OFF
           -DUSE_OPENCV=OFF)
@@ -726,13 +724,11 @@ if (UNIX OR APPLE)
           CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
           -DUSE_CUDNN=${USE_CUDNN}
           -DCUDA_ARCH_NAME=${CUDA_ARCH}
-          -DCUDA_ARCH_BIN=${CUDA_ARCH_BIN}
-          -DCUDA_ARCH_PTX=${CUDA_ARCH_PTX}
           -DCPU_ONLY=${CAFFE_CPU_ONLY}
           -DCMAKE_BUILD_TYPE=Release
           -DBUILD_docs=OFF
-          -DBUILD_python=OFF
-          -DBUILD_python_layer=OFF
+	  -DBUILD_python=ON
+	  -DBUILD_python_layer=ON
           -DUSE_LEVELDB=OFF
           -DUSE_LMDB=OFF
           -DUSE_OPENCV=OFF)
