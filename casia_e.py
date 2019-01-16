@@ -3,8 +3,8 @@
 @Date: 2019-01-10 13:21:08
 @LastEditors: Jilong Wang
 @Email: jilong.wang@watrix.ai
-@LastEditTime: 2019-01-16 14:43:57
-@Description: file content
+@LastEditTime: 2019-01-16 15:15:33
+@Description: A gait extraction tool for CASIA-E dataset
 '''
 from __future__ import print_function
 import argparse
@@ -47,7 +47,7 @@ class GaitExtractor:
         params = dict()
         params["logging_level"] = 3
         params["output_resolution"] = "-1x-1"
-        params["net_resolution"] = "-1x256"
+        params["net_resolution"] = "-1x320"
         params["model_pose"] = "BODY_25"
         params["alpha_pose"] = 0.6
         params["scale_gap"] = 0.25
@@ -272,6 +272,7 @@ class GaitExtractor:
             if self.is_main_role([xmin, xmax, ymin, ymax], main_role_coord):
                 main_role_coord = [xmin, xmax, ymin, ymax]
                 frame_main_role.append((im_name, count, [int(xmin), int(xmax), int(ymin), int(ymax)]))
+                
             else:
                 print([xmin, xmax, ymin, ymax], main_role_coord)
                 print(im_name + ' is not main role')
