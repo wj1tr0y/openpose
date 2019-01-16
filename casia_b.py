@@ -3,7 +3,7 @@
 @Date: 2019-01-10 13:21:08
 @LastEditors: Jilong Wang
 @Email: jilong.wang@watrix.ai
-@LastEditTime: 2019-01-10 17:28:06
+@LastEditTime: 2019-01-10 17:52:59
 @Description: file content
 '''
 from __future__ import print_function
@@ -100,7 +100,6 @@ class GaitExtractor:
             if self.check_integrity(coords) < 5:
                 continue
             xmin, xmax, ymin, ymax = 10000, 0, 10000, 0
-            
             # find rectangle
             for coord in coords:
                 x, y, conf = coord
@@ -164,8 +163,7 @@ class GaitExtractor:
 
         frame_result = []
         for im_name in im_names:
-            img = cv2.imread(os.path.join(img_dir, im_name), cv2.IMREAD_COLOR)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = cv2.imread(os.path.join(img_dir, im_name))
             keypoints = self.op_net.forward(img, False)
             if keypoints.shape[0] > 0:
                 if keypoints.shape[0] > 1:

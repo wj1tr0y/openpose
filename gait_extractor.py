@@ -3,7 +3,7 @@
 @Date: 2019-01-05 17:47:31
 @LastEditors: Jilong Wang
 @Email: jilong.wang@watrix.ai
-@LastEditTime: 2019-01-10 15:25:47
+@LastEditTime: 2019-01-16 14:08:36
 @Description: Gait extractor. Supporting single video file extraction{pass the video file path} and mutli-videos extraction{pass the video folder path}
 '''
 import cv2
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             video_names = [x for x in video_names if 'bkgrd' not in x]
     elif args.dataset == 'casia_e':
         import casia_e as casia
-
+        video_names = [x for x in video_names if 'mp4' in x]
 
     # initialize openpose and detect net 
     gait_extractor = casia.GaitExtractor(args.gpuid, det_batch_size=20)
@@ -81,8 +81,11 @@ if __name__ == '__main__':
             print("{} doesn't exists".format(img_dir))
             sys.exit(0)
         # gait picture save path
-        basename = os.path.basename(video_name)[:-4]
-        save_dir = os.path.join('./results/',basename[0:3], basename[4:9], basename[10:])
+        basename = os.path.basename(video_name)[:-4].split('_')
+        if len(basename) == 7:
+            save_dir = os.path.join('./results', basename[0], basename[1], basename[2]+'_'+basename[3], basename[4], basename[5] + '_' + basename[6])
+        else:
+            save_dir = os.path.join('./results', basename[0], basename[1], basename[2]+'_'+basename[3], basename[4], basename[5])
         if os.path.exists(save_dir):
             shutil.rmtree(save_dir)
         os.makedirs(save_dir)
