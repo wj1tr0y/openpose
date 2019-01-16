@@ -3,7 +3,7 @@
 @Date: 2019-01-15 11:06:20
 @LastEditors: Jilong Wang
 @Email: jilong.wang@watrix.ai
-@LastEditTime: 2019-01-16 14:27:44
+@LastEditTime: 2019-01-16 17:58:50
 @Description: A Segmentation class which contains get_area method and forward method
 '''
 # coding: utf-8
@@ -15,8 +15,8 @@ import torch
 import sys
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
-from util.models import SegmentModel
-from util.options import BaseOptions
+from models import SegmentModel
+from options import BaseOptions
 
 class Segmentation:
     def __init__(self, gpuid=[0]):

@@ -3,8 +3,8 @@
 @Date: 2019-01-10 13:21:08
 @LastEditors: Jilong Wang
 @Email: jilong.wang@watrix.ai
-@LastEditTime: 2019-01-10 17:52:59
-@Description: file content
+@LastEditTime: 2019-01-16 17:57:48
+@Description: A gait extraction tool for CASIA-B dataset
 '''
 from __future__ import print_function
 import argparse
@@ -26,7 +26,7 @@ except:
 
 
 class GaitExtractor:
-    def __init__(self, gpuid, det_batch_size=20):
+    def __init__(self, gpuid):
         self.op_net = self.net_init(gpu_id=gpuid)
         self.threshold = 0.10
     def net_init(self, gpu_id=0):
@@ -49,7 +49,7 @@ class GaitExtractor:
         params["num_gpu_start"] = int(gpu_id)
         params["disable_blending"] = False
         # Ensure you point to the correct path where models are located
-        params["default_model_folder"] = "/home/wjltroy/codeground/openpose/models/"
+        params["default_model_folder"] = "./models/"
         # Construct OpenPose object allocates GPU memory
         op_net = OpenPose(params)
 
